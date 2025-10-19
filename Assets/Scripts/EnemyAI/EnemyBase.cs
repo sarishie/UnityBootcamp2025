@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour
@@ -8,11 +8,15 @@ public abstract class EnemyBase : MonoBehaviour
     public string enemyName;
     public float attackRange;
     public float safeDistance;
-    public GameObject player;
+    protected GameObject player;
     protected Vector2 playerPos;
     protected Vector2 enemyPos;
     protected Vector2 startPos;
     protected float playerDistance;
+
+    [Header("References")]
+    private EnemyHealth enemyHealth;
+    public event Action<EnemyBase> OnDeath;
 
     protected enum EnemyState
     {
@@ -27,6 +31,9 @@ public abstract class EnemyBase : MonoBehaviour
     {
         currentState = EnemyState.Patrol;
         startPos = transform.position;
+        player = GameObject.FindGameObjectWithTag("Player");
+        enemyHealth = GetComponent<EnemyHealth>();
+        enemyHealth.OnDeath += Die;
     }
 
     protected virtual void Update()
@@ -51,14 +58,22 @@ public abstract class EnemyBase : MonoBehaviour
         }
     }
 
-    public abstract void Patrol();
-    public abstract void Attack();
+    protected abstract void Patrol();
+    protected abstract void Attack();
 
-    public abstract void Chase();
+    protected abstract void Chase();
 
-    public virtual void CheckTransition()
+    protected virtual void CheckTransition()
     {
         Debug.Log("Enemy AI : Check Transisi");
+    }
+
+    protected virtual void Die()
+    {
+        OnDeath?.Invoke(this);
+
+        Debug.Log(this + "Enemy Died");
+        Destroy(gameObject);
     }
 
 

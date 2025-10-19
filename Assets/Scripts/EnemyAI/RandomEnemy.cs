@@ -12,25 +12,25 @@ public class RandomEnemy : EnemyBase
 
 
 
-    public override void Attack()
+    protected override void Attack()
     {
         Debug.Log("Enemy AI : Enemy Attacked");
 
     }
 
-    public override void Patrol()
+    protected override void Patrol()
     {
         Debug.Log("Enemy AI : Enemy Patrol");
         transform.position = startPos;
     }
 
-    public override void Chase()
+    protected override void Chase()
     {
         Debug.Log("Enemy AI : Enemy Chase");
         transform.position = playerPos;
     }
 
-    public override void CheckTransition()
+    protected override void CheckTransition()
     {
         base.CheckTransition();
         
@@ -58,7 +58,7 @@ public class RandomEnemy : EnemyBase
         
     }
 
-    public IEnumerator runningRandomSwitchState()
+    protected IEnumerator runningRandomSwitchState()
     {
         isRandomRunning = false;
         RandomNumber = Random.Range(0, 10);

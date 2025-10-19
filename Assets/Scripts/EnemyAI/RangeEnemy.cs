@@ -2,23 +2,23 @@ using UnityEngine;
 
 public class RangeEnemy : EnemyBase
 {
-    public override void Attack()
+    protected override void Attack()
     {
         Debug.Log("Enemy AI : Enemy Attacked");
 
     }
 
-    public override void Patrol()
+    protected override void Patrol()
     {
         Debug.Log("Enemy AI : Enemy Patrol");
     }
 
-    public override void Chase()
+    protected override void Chase()
     {
         Debug.Log("Enemy AI : Enemy Chase");
     }
 
-    public override void CheckTransition()
+    protected override void CheckTransition()
     {
         base.CheckTransition();
         attackRange = 6f;
